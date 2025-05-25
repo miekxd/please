@@ -63,12 +63,8 @@ const CommunityPage = () => {
     status: 'Occupied'
   });
 
-  // Fetch residents data from Supabase when component mounts
-  useEffect(() => {
-    fetchResidents();
-  }, []);
-
-    const fetchResidents = async () => {
+  // Define fetchResidents function FIRST
+  const fetchResidents = async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/residents');
@@ -93,6 +89,11 @@ const CommunityPage = () => {
       setLoading(false);
     }
   };
+
+  // THEN use it in useEffect
+  useEffect(() => {
+    fetchResidents();
+  }, []);
 
   const handleAddResident = async (e) => {
     e.preventDefault();
