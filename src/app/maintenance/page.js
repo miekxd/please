@@ -141,6 +141,10 @@ const MaintenancePage = () => {
               <Users size={16} className="mr-2" />
               <span>Community</span>
             </Link>
+            <Link href="/unit-details" className="flex items-center px-4 h-full hover:bg-gray-700">
+              <User size={16} className="mr-2" />
+              <span>Unit Details</span>
+            </Link>
             <a href="/api/php-demo.php" className="flex items-center px-4 h-full hover:bg-gray-700">
               <FileCode size={16} className="mr-2" />
               <span>PHP Demo</span>
