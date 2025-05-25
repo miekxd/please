@@ -12,6 +12,7 @@ import {
   Calendar,
   Save,
   Search,
+  FileCode
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -248,7 +249,7 @@ const FinancialManagement = () => {
               <Home size={16} className="mr-2" />
               <span>Dashboard</span>
             </Link>
-            <Link href="/financial" className="flex items-center px-4 h-full hover:bg-gray-700">
+            <Link href="/financial" className="flex items-center px-4 h-full bg-gray-900">
               <CreditCard size={16} className="mr-2" />
               <span>Financials</span>
             </Link>
@@ -260,12 +261,12 @@ const FinancialManagement = () => {
               <FileText size={16} className="mr-2" />
               <span>Documents</span>
             </Link>
-            <Link href="/community" className="flex items-center px-4 h-full bg-gray-900">
+            <Link href="/community" className="flex items-center px-4 h-full hover:bg-gray-700">
               <Users size={16} className="mr-2" />
               <span>Community</span>
             </Link>
             <a href="/api/php-demo.php" className="flex items-center px-4 h-full hover:bg-gray-700">
-              <Wrench size={16} className="mr-2" />
+              <FileCode size={16} className="mr-2" />
               <span>PHP Demo</span>
             </a>
           </div>

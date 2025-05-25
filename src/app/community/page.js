@@ -10,6 +10,7 @@ import {
   Bell,
   Mail,
   Phone,
+  FileCode
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -135,7 +136,7 @@ const CommunityPage = () => {
               <span>Community</span>
             </Link>
             <a href="/api/php-demo.php" className="flex items-center px-4 h-full hover:bg-gray-700">
-              <Wrench size={16} className="mr-2" />
+              <FileCode size={16} className="mr-2" />
               <span>PHP Demo</span>
             </a>
           </div>
