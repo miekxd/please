@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "regions": ["syd1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "key",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "key"
+  },
+  "functions": {
+    "api/**/*.php": {
+      "runtime": "vercel-php@0.7.3"
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/monthly-report", 
+      "schedule": "0 0 1 * *"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/dashboard", 
+      "permanent": true
+    }
+  ]
+}
