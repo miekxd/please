@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 export async function POST() {
   const response = new Response(JSON.stringify({ 
     success: true, 

@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 export async function POST(request) {
   const { username, role } = await request.json();
   
