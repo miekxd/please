@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Building, 
   Wrench, 
@@ -17,6 +17,31 @@ import Image from 'next/image';
 
 const Dashboard = () => {
   // State for notifications
+  const [currentUser, setCurrentUser] = useState(null);
+  
+  // Check if user is logged in using cookies
+  useEffect(() => {
+    fetch('/api/auth/check')
+      .then(response => response.json())
+      .then(data => {
+        if (data.loggedIn) {
+          setCurrentUser(data);
+        } else {
+          window.location.href = '/';
+        }
+      });
+  }, []);
+
+  // ADD THIS LOGOUT FUNCTION
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   const [notifications, setNotifications] = useState([
     { id: 1, message: "Annual General Meeting scheduled for May 15", type: "info", date: "2025-04-02" },
     { id: 2, message: "New maintenance request from Unit 305", type: "alert", date: "2025-04-03" },
@@ -57,8 +82,13 @@ const Dashboard = () => {
               <h1 className="text-xl font-bold text-gray-900">StrataSphere</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, Admin</span>
-              <button className="flex items-center space-x-1 bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-sm">
+              <span className="text-sm text-gray-600">
+                Welcome, {currentUser ? currentUser.username : 'Admin'}
+              </span>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center space-x-1 bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-sm"
+              >
                 <LogOut size={16} />
                 <span>Logout</span>
               </button>
@@ -102,6 +132,17 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Dashboard Overview</h2>
+
+        {currentUser && (
+          <div className="bg-blue-50 p-4 rounded-lg mb-6">
+            <h3 className="font-medium text-blue-900 mb-2">Current Session</h3>
+            <div className="text-sm text-blue-700">
+              <p><strong>User:</strong> {currentUser.username}</p>
+              <p><strong>Role:</strong> {currentUser.role}</p>
+              <p><strong>Login Time:</strong> {new Date(currentUser.loginTime).toLocaleString()}</p>
+            </div>
+          </div>
+        )}
         
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">

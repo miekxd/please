@@ -8,21 +8,46 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!username || !password) {
+    setError('Please enter both username and password');
+    return;
+  }
+  
+  try {
+    // First validate credentials
+    const validateResponse = await fetch('/api/auth/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
     
-    if (!username || !password) {
-      setError('Please enter both username and password');
-      return;
+    const validateData = await validateResponse.json();
+    
+    if (validateData.authorized) {
+      // Set cookies by calling login API
+      const loginResponse = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          username: username, 
+          role: validateData.role 
+        }),
+      });
+      
+      if (loginResponse.ok) {
+        // Redirect to dashboard
+        window.location.href = '/dashboard';
+      }
+    } else {
+      setError('Invalid username or password');
     }
-    
-    // Here you would typically call an authentication API
-    console.log('Login attempted with:', { username, password });
-    setError('');
-    
-    // For demonstration purposes, we'll redirect to the dashboard
-    window.location.href = '/dashboard';
-  };
+  } catch (error) {
+    setError('Login failed');
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
