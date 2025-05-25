@@ -176,12 +176,12 @@ const UnitDetailsPage = () => {
           <Link href="/dashboard" className="mr-4 text-blue-600 hover:text-blue-800">
             <ArrowLeft size={20} />
           </Link>
-          <h2 className="text-2xl font-bold text-gray-800">Unit Details - Database Relationships Demo</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Unit Details - Database Summary</h2>
         </div>
 
         {/* Unit Selector */}
         <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h3 className="text-lg font-medium mb-4">Select a Unit to View Complete Details</h3>
+          <h3 className="text-lg font-medium text-gray-800">Select a Unit to View Complete Details</h3>
           <select 
             value={selectedUnit} 
             onChange={handleUnitChange}
@@ -225,31 +225,31 @@ const UnitDetailsPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-900 mb-4">Basic Details</h4>
-                    <div className="space-y-2">
-                      <p><strong>Unit Number:</strong> {unitData.unit.unit_number}</p>
-                      <p><strong>Owner:</strong> {unitData.unit.owner_name}</p>
-                      <p><strong>Status:</strong> 
-                        <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
-                          unitData.unit.status === 'Occupied' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {unitData.unit.status}
-                        </span>
-                      </p>
+                    <div className="space-y-2 text-gray-900">
+                        <p><strong>Unit Number:</strong> {unitData.unit.unit_number}</p>
+                        <p><strong>Owner:</strong> {unitData.unit.owner_name}</p>
+                        <p><strong>Status:</strong> 
+                            <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
+                            unitData.unit.status === 'Occupied' 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                            {unitData.unit.status}
+                            </span>
+                        </p>
                     </div>
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900 mb-4">Contact Information</h4>
-                    <div className="space-y-2">
-                      <p className="flex items-center">
-                        <Mail size={16} className="mr-2 text-gray-400" />
-                        {unitData.unit.email || 'Not provided'}
-                      </p>
-                      <p className="flex items-center">
-                        <Phone size={16} className="mr-2 text-gray-400" />
-                        {unitData.unit.phone || 'Not provided'}
-                      </p>
+                    <div className="space-y-2 text-gray-900">
+                        <p className="flex items-center">
+                            <Mail size={16} className="mr-2 text-gray-400" />
+                            {unitData.unit.email || 'Not provided'}
+                        </p>
+                        <p className="flex items-center">
+                            <Phone size={16} className="mr-2 text-gray-400" />
+                            {unitData.unit.phone || 'Not provided'}
+                        </p>
                     </div>
                   </div>
                 </div>
