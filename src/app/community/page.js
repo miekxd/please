@@ -53,42 +53,130 @@ const CommunityPage = () => {
     { id: 3, title: 'Building Inspection', date: '2025-04-20', time: '10:00', location: 'Common Areas' }
   ]);
 
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingResident, setEditingResident] = useState(null);
+  const [formData, setFormData] = useState({
+    unit_number: '',
+    owner_name: '',
+    email: '',
+    phone: '',
+    status: 'Occupied'
+  });
+
   // Fetch residents data from Supabase when component mounts
   useEffect(() => {
-    async function fetchResidents() {
-      try {
-        setLoading(true);
-        
-        // Query the units table to get all residents
-        const { data, error } = await supabase
-          .from('units')
-          .select('*');
-        
-        if (error) {
-          throw error;
-        }
-        
-        // Map the database data to the format needed for our component
-        const formattedResidents = data.map(unit => ({
+    fetchResidents();
+  }, []);
+
+    const fetchResidents = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/residents');
+      const result = await response.json();
+      
+      if (result.success) {
+        const formattedResidents = result.data.map(unit => ({
           id: unit.id,
           unit: unit.unit_number,
           name: unit.owner_name,
           type: unit.status === 'Occupied' ? 'Owner' : 'Vacant',
           email: unit.email,
-          phone: unit.phone
+          phone: unit.phone,
+          status: unit.status
         }));
-        
         setResidents(formattedResidents);
-      } catch (err) {
-        console.error('Error fetching residents:', err);
-        setError('Failed to load residents. Please try again later.');
-      } finally {
-        setLoading(false);
       }
+    } catch (err) {
+      console.error('Error fetching residents:', err);
+      setError('Failed to load residents');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddResident = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/api/residents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setShowAddForm(false);
+        setFormData({ unit_number: '', owner_name: '', email: '', phone: '', status: 'Occupied' });
+        fetchResidents(); // Refresh the list
+      } else {
+        setError('Failed to add resident');
+      }
+    } catch (err) {
+      console.error('Error adding resident:', err);
+      setError('Failed to add resident');
+    }
+  };
+
+  const handleEditResident = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch(`/api/residents/${editingResident.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setEditingResident(null);
+        setFormData({ unit_number: '', owner_name: '', email: '', phone: '', status: 'Occupied' });
+        fetchResidents(); // Refresh the list
+      } else {
+        setError('Failed to update resident');
+      }
+    } catch (err) {
+      console.error('Error updating resident:', err);
+      setError('Failed to update resident');
+    }
+  };
+
+  const handleDeleteResident = async (id) => {
+    if (!confirm('Are you sure you want to delete this resident?')) {
+      return;
     }
     
-    fetchResidents();
-  }, []);
+    try {
+      const response = await fetch(`/api/residents/${id}`, {
+        method: 'DELETE'
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        fetchResidents(); // Refresh the list
+      } else {
+        setError('Failed to delete resident');
+      }
+    } catch (err) {
+      console.error('Error deleting resident:', err);
+      setError('Failed to delete resident');
+    }
+  };
+
+  const startEdit = (resident) => {
+    setEditingResident(resident);
+    setFormData({
+      unit_number: resident.unit,
+      owner_name: resident.name,
+      email: resident.email,
+      phone: resident.phone,
+      status: resident.status
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -174,7 +262,10 @@ const CommunityPage = () => {
                 <Users className="text-green-500 mr-2" size={18} />
                 <h3 className="text-md font-medium text-gray-800">Residents Directory</h3>
               </div>
-              <button className="text-sm text-green-600 hover:text-green-800 flex items-center">
+              <button 
+                onClick={() => setShowAddForm(true)}
+                className="text-sm text-green-600 hover:text-green-800 flex items-center"
+              >
                 Add Resident
               </button>
             </div>
