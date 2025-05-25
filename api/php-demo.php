@@ -257,6 +257,7 @@ $vacant_units = $total_units - $occupied_units;
             <a href="/maintenance" class="nav-item">🔧 Maintenance</a>
             <a href="/documents" class="nav-item">📄 Documents</a>
             <a href="/community" class="nav-item">👥 Community</a>
+            <a href="/unit-details" class="nav-item">👤 Unit Details</a>
             <a href="/api/php-demo.php" class="nav-item active">⚡ PHP Demo</a>
         </div>
     </nav>

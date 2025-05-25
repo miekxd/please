@@ -10,7 +10,8 @@ import {
   Bell,
   Mail,
   Phone,
-  FileCode
+  FileCode,
+  User
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
