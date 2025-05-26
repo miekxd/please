@@ -156,6 +156,14 @@ const handleSubmit = async (e) => {
               Sign in
             </button>
           </div>
+          <div className="mt-4 p-3 bg-blue-50 rounded-md">
+            <p className="text-sm text-blue-700">
+              <strong>Demo Credentials:</strong><br/>
+              Admin: admin / password<br/>
+              Manager: manager / password<br/>
+              Resident: resident / password
+            </p>
+          </div>
         </form>
       </div>
     </div>
