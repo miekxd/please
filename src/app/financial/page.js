@@ -243,7 +243,6 @@ useEffect(() => {
       
       setPostStatusMessage('Transaction created successfully! Status code: 201 Created');
       
-      // ADD THIS - Refresh the page data after a short delay to show notification
       setTimeout(() => {
         window.location.reload();
       }, 2000); // Wait 2 seconds to let users see the real-time notification
@@ -306,10 +305,6 @@ useEffect(() => {
             <Link href="/community" className="flex items-center px-4 h-full hover:bg-gray-700">
               <Users size={16} className="mr-2" />
               <span>Community</span>
-            </Link>
-            <Link href="/unit-details" className="flex items-center px-4 h-full hover:bg-gray-700">
-              <User size={16} className="mr-2" />
-              <span>Unit Details</span>
             </Link>
             <a href="/api/php-demo.php" className="flex items-center px-4 h-full hover:bg-gray-700">
               <FileCode size={16} className="mr-2" />
